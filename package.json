@@ -1,0 +1,22 @@
+{
+  "name": "proffy",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node": "^14.7.0",
+    "nunjucks": "^3.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViniciusLagoGehrke/Proffy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ViniciusLagoGehrke/Proffy/issues"
+  },
+  "homepage": "https://github.com/ViniciusLagoGehrke/Proffy#readme"
+}

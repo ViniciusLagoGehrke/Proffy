@@ -1,3 +1,5 @@
+// Dados
+
 const proffys = [
     {
         name: "Diego Fernandes",
@@ -7,8 +9,8 @@ const proffys = [
         subject: "Química",
         cost: "20",
         weekday: [0],
-        time_from: [],
-        time_to: []
+        time_from: [700],
+        time_to: [1100]
     },
     {
         name: "Vinicius Gehrke",
@@ -18,33 +20,82 @@ const proffys = [
         subject: "Geografia",
         cost: "20",
         weekday: [0],
-        time_from: [],
-        time_to: []
+        time_from: [720],
+        time_to: [1120]
     }
 ]
+
+const subjects = [
+    "Artes",
+    "Biologia",
+    "Ciências",
+    "Educação Física",
+    "Física",
+    "Geografia",
+    "História",
+    "Matemática",
+    "Português",
+    "Química"
+]
+
+const weekdays = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado"
+]
+
+// Funcionalidades
+
+function getSubject(subjectNumber) {
+    const position = +subjectNumber - 1
+    return subject[position]
+}
 
 function pageLanding(req, res) {
     return res.render("index.html")
 }
 
 function pageStudy(req, res) {
-    return res.render("study.html", { proffys, title: "Hi from Nunjucks" })
+    const filters = req.query
+    return res.render("study.html", { proffys, filters, subjects, weekdays })
 }
 
 function pageGiveClasses(req, res) {
-    return res.render("give-classes.html")
+    const data = req.query
+
+    //if there is data
+    const isNotEmpty = Object.keys(data).length > 0
+    if (isNotEmpty) {
+
+        data.subject = getSubject(data.subject)
+
+        //add data to Proffys array
+        proffys.push(data)
+
+        return res.redirect("/study")
+    }
+
+    //if not, show page
+    return res.render("give-classes.html", { subjects, weekdays })
 }
+
+// Servidor
 
 const express = require('express')
 const server = express()
-const nunjucks = require('nunjucks')
 
-//configurar nunjucks
+// Configurar nunjucks (template engine)
+const nunjucks = require('nunjucks')
 nunjucks.configure('src/views', {
     express: server,
     noCache: true
 })
 
+// Início e configuração do servidor
 server
     //configurar arquivos estáticos (css, scripts, imagens)
     .use(express.static("public"))
@@ -52,4 +103,5 @@ server
     .get("/", pageLanding)
     .get("/study", pageStudy)
     .get("/give-classes", pageGiveClasses)
+    // start do servidor
     .listen(5500)

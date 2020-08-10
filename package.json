@@ -3,6 +3,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "node": "^14.7.0",
+    "npm-normalize-package-bin": "^1.0.1",
     "nunjucks": "^3.2.2"
   },
   "devDependencies": {
